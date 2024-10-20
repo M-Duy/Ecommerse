@@ -11,7 +11,7 @@ function Banner() {
                     Make your celebrations even more special this years with
                     beautiful.
                 </div>
-                <Button content={'Go to shop'} />
+                <Button content={'Go to shop'} isPrimaryBtn={true} />
             </div>
         </div>
     );

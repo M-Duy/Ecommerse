@@ -6,15 +6,35 @@
 
     padding: 13px 45px;
     font-size: 14px;
-    color: $white_color;
     font-weight: 400;
     cursor: pointer;
+
+    &:hover {
+        font-weight: 600;
+        transition: background-color 300ms;
+    }
+}
+
+.primaryBtn {
+    background-color: $primary_color;
+    color: $white_color;
 
     &:hover {
         background-color: transparent;
         color: $primary_color;
         border: 1px solid $primary_color;
-        font-weight: 600;
-        transition: background-color 300ms;
+    }
+}
+
+.secondaryBtn {
+    background-color: $white_color;
+    color: $primary_color;
+    // border: 1px solid $primary_color;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+        rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+
+    &:hover {
+        background-color: $primary_color;
+        color: $white_color;
     }
 }
