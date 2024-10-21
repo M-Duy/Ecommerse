@@ -7,8 +7,10 @@ import reLoadIcon from '@icons/svgs/spinIcon.svg';
 import heartIcon from '@icons/svgs/heartIcon.svg';
 import cartIcon from '@icons/svgs/cartIcon.svg';
 import useScrollHandling from '@/hooks/useScrollHandling';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { SidebarProvider } from '@/contexts/SideBarProvider';
+import { SidaBarContext } from '@/contexts/SideBarProvider';
 
 function Header() {
     const {
@@ -24,6 +26,8 @@ function Header() {
 
     const { scrollPosition } = useScrollHandling();
     const [fixedPosition, setFixedPosition] = useState(false);
+
+    const { isOpen, setIsOpen } = useContext(SidaBarContext);
 
     useEffect(() => {
         //Cách 1:
@@ -71,7 +75,11 @@ function Header() {
                     <div className={containerMenu}>
                         {dataMenu.slice(3, dataMenu.length).map((item) => {
                             return (
-                                <Menu content={item.content} href={item.href} />
+                                <Menu
+                                    content={item.content}
+                                    href={item.href}
+                                    setIsOpen={setIsOpen}
+                                />
                             );
                         })}
                     </div>
