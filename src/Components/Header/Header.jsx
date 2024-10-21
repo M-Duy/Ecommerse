@@ -4,12 +4,14 @@ import styles from './styles.module.scss';
 import Menu from '@components/Header/Menu/Menu';
 import Logo from '@icons/images/Logo-retina.png';
 import reLoadIcon from '@icons/svgs/spinIcon.svg';
+import { TfiReload } from 'react-icons/tfi';
 import heartIcon from '@icons/svgs/heartIcon.svg';
+import { FaRegHeart } from 'react-icons/fa6';
 import cartIcon from '@icons/svgs/cartIcon.svg';
+import { PiShoppingCart } from 'react-icons/pi';
 import useScrollHandling from '@/hooks/useScrollHandling';
 import { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { SidebarProvider } from '@/contexts/SideBarProvider';
 import { SidaBarContext } from '@/contexts/SideBarProvider';
 
 function Header() {
@@ -21,13 +23,18 @@ function Header() {
         containerBox,
         boxLogo,
         fixedHeader,
-        topHeader
+        topHeader,
+        iconCart
     } = styles;
 
     const { scrollPosition } = useScrollHandling();
     const [fixedPosition, setFixedPosition] = useState(false);
+    const { setIsOpen, setType } = useContext(SidaBarContext);
 
-    const { isOpen, setIsOpen } = useContext(SidaBarContext);
+    const handleOpenSideBar = (type) => {
+        setIsOpen(true);
+        setType(type);
+    };
 
     useEffect(() => {
         //Cách 1:
@@ -44,7 +51,6 @@ function Header() {
         setFixedPosition(scrollPosition > 80);
     }, [scrollPosition]);
 
-    console.log(scrollPosition);
     return (
         <div
             className={classNames(container, topHeader, {
@@ -84,9 +90,16 @@ function Header() {
                         })}
                     </div>
                     <div className={containerBoxIcon}>
-                        <img src={reLoadIcon} alt='reLoadIcon' />
-                        <img src={heartIcon} alt='heartIcon' />
-                        <img src={cartIcon} alt='cartIcon' />
+                        <TfiReload
+                            onClick={() => handleOpenSideBar('compare')}
+                        />
+                        <FaRegHeart
+                            onClick={() => handleOpenSideBar('wishlist')}
+                        />
+                        <PiShoppingCart
+                            className={iconCart}
+                            onClick={() => handleOpenSideBar('cart')}
+                        />
                     </div>
                 </div>
             </div>

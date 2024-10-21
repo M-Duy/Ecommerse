@@ -1,0 +1,32 @@
+@import '@styles/mixins.module.scss';
+
+.container {
+    @include flex_box_custom(space-between, space-between, 0px);
+    flex-direction: column;
+    padding: 30px 20px 0 20px;
+    height: 90vh;
+
+    .totalCl {
+        @include flex_box_custom(space-between, center, 0px);
+
+        margin-bottom: 20px;
+    }
+
+    .boxBtn {
+        @include flex_box_custom(center, center, 10px);
+
+        position: relative;
+        flex-direction: column;
+
+        ::before {
+            content: '';
+            display: block;
+            height: 2px;
+            width: 100%;
+            position: absolute;
+            background-color: rgba(34, 36, 37, 0.3);
+            top: -20px;
+            left: 0;
+        }
+    }
+}

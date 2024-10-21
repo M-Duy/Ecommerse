@@ -37,11 +37,12 @@
 }
 
 .containerBoxIcon {
-    @include flex_box_custom(center, center, 15px);
+    @include flex_box_custom(center, center, 20px);
+    font-size: 20px;
+    cursor: pointer;
 
-    img {
-        width: 25px;
-        height: 25px;
+    .iconCart {
+        font-size: 23px;
     }
 }
 

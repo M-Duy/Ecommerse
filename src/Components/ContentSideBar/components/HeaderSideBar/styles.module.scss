@@ -1,0 +1,36 @@
+@import '@styles/mixins.module.scss';
+
+.container {
+    @include flex_box_custom(center, center, 10px);
+    flex-direction: column;
+
+    font-size: 25px;
+    font-weight: 600;
+
+    .headTitle {
+        position: relative;
+        text-transform: uppercase;
+        font-size: 18px;
+        margin: 7px 0px;
+        cursor: pointer;
+
+        &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 100%;
+            bottom: -3px;
+            left: 0;
+            border: 1px solid #231f1f;
+            transform: scale(0);
+            transform-origin: left;
+            opacity: 0;
+            transition: transform 300ms ease;
+        }
+
+        &:hover.headTitle::after {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+}

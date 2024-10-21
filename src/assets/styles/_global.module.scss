@@ -2,4 +2,8 @@
 
 body {
     font-family: 'Roboto', sans-serif;
+    input[type='password']::-ms-reveal,
+    input[type='password']::-webkit-textfield-decoration-container {
+        display: none;
+    }
 }
