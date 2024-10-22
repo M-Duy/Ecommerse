@@ -4,10 +4,12 @@ import Button from '@components/Button/Button';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Value } from 'sass';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { ToastContext } from '@/contexts/ToastProvider';
 
 function Login() {
     const { container, boxTitle, boxSubmit, forgotPassword, boxCheck } = styles;
+    const { toast } = useContext(ToastContext);
     const [isRegister, setIsRegister] = useState(false);
 
     const formik = useFormik({
@@ -80,6 +82,7 @@ function Login() {
                         content={isRegister ? 'REGISTER' : 'LOGIN'}
                         isPrimaryBtn={true}
                         type='submit'
+                        onClick={() => toast.success('Success')}
                     />
                 </div>
             </form>
