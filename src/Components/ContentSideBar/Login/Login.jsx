@@ -6,11 +6,13 @@ import * as Yup from 'yup';
 import { Value } from 'sass';
 import { useContext, useState } from 'react';
 import { ToastContext } from '@/contexts/ToastProvider';
+import { register } from '@/apis/authService';
 
 function Login() {
     const { container, boxTitle, boxSubmit, forgotPassword, boxCheck } = styles;
     const { toast } = useContext(ToastContext);
     const [isRegister, setIsRegister] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const formik = useFormik({
         initialValues: {
@@ -30,9 +32,28 @@ function Login() {
                 'Password must match'
             )
         }),
-        onSubmit: (value) => {
-            formik.resetForm();
-            console.log(value);
+        onSubmit: async (values) => {
+            // console.log(values);
+            if (isLoading) return;
+
+            if (isRegister) {
+                const { email: username, password } = values;
+
+                setIsLoading(true);
+                await register({ username, password })
+                    .then((res) => {
+                        // console.log(res);
+                        toast.success(res.data.message);
+                        formik.resetForm();
+                        setIsLoading(false);
+                    })
+                    .catch((err) => {
+                        // console.log(err);
+                        toast.error(err.response.data.message);
+                        formik.resetForm();
+                        setIsLoading(false);
+                    });
+            }
         }
     });
 
@@ -41,7 +62,7 @@ function Login() {
         formik.resetForm();
     };
 
-    console.log(formik.errors);
+    // console.log(formik.errors);
     return (
         <div className={container}>
             <div className={boxTitle}>{isRegister ? 'SIGN UP' : 'SIGN IN'}</div>
@@ -79,10 +100,16 @@ function Login() {
 
                 <div className={boxSubmit}>
                     <Button
-                        content={isRegister ? 'REGISTER' : 'LOGIN'}
+                        content={
+                            isLoading
+                                ? 'Loading...'
+                                : isRegister
+                                ? 'REGISTER'
+                                : 'LOGIN'
+                        }
                         isPrimaryBtn={true}
                         type='submit'
-                        onClick={() => toast.success('Success')}
+                        // onClick={() => toast.success('Success')}
                     />
                 </div>
             </form>

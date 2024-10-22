@@ -4,7 +4,7 @@ import MainLayout from '@components/Layout/Layout';
 
 function PopularProducts({ data }) {
     const { container } = styles;
-    console.log(data);
+    // console.log(data);
 
     return (
         <MainLayout>
