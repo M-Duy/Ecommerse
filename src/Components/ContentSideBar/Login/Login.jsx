@@ -4,14 +4,17 @@ import Button from '@components/Button/Button';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Value } from 'sass';
+import { useState } from 'react';
 
 function Login() {
     const { container, boxTitle, boxSubmit, forgotPassword, boxCheck } = styles;
+    const [isRegister, setIsRegister] = useState(false);
 
     const formik = useFormik({
         initialValues: {
             email: '',
-            password: ''
+            password: '',
+            cfpassword: ''
         },
         validationSchema: Yup.object({
             email: Yup.string()
@@ -19,17 +22,27 @@ function Login() {
                 .required('Email is requied'),
             password: Yup.string()
                 .min(6, 'Password must be at least 6 characters')
-                .required('Password is required')
+                .required('Password is required'),
+            cfpassword: Yup.string().oneOf(
+                [Yup.ref('password'), null],
+                'Password must match'
+            )
         }),
         onSubmit: (value) => {
+            formik.resetForm();
             console.log(value);
         }
     });
 
+    const handleToggle = () => {
+        setIsRegister(!isRegister);
+        formik.resetForm();
+    };
+
     console.log(formik.errors);
     return (
         <div className={container}>
-            <div className={boxTitle}>SIGN IN</div>
+            <div className={boxTitle}>{isRegister ? 'SIGN UP' : 'SIGN IN'}</div>
             <form onSubmit={formik.handleSubmit}>
                 <InputCommon
                     id='email'
@@ -45,21 +58,44 @@ function Login() {
                     isRequired
                     formik={formik}
                 />
+                {isRegister && (
+                    <InputCommon
+                        id='cfpassword'
+                        label={'Confirm password'}
+                        type={'password'}
+                        isRequired
+                        formik={formik}
+                    />
+                )}
 
-                <div className={boxCheck}>
-                    <input type='checkbox' />
-                    <span>Remember me</span>
-                </div>
+                {!isRegister && (
+                    <div className={boxCheck}>
+                        <input type='checkbox' />
+                        <span>Remember me</span>
+                    </div>
+                )}
 
                 <div className={boxSubmit}>
                     <Button
-                        content={'LOGIN'}
+                        content={isRegister ? 'REGISTER' : 'LOGIN'}
                         isPrimaryBtn={true}
                         type='submit'
                     />
                 </div>
             </form>
-            <div className={forgotPassword}>Lost your password?</div>
+            <Button
+                content={
+                    isRegister
+                        ? 'Already have an account?'
+                        : "Don't have an account?"
+                }
+                isSecondBtn={true}
+                type='submit'
+                onClick={handleToggle}
+            />
+            {!isRegister && (
+                <div className={forgotPassword}>Lost your password?</div>
+            )}
         </div>
     );
 }
